@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - WebSIDD</title>
+    <!-- Vinculamos el archivo CSS externo usando las rutas dinámicas de Flask -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🌤️ Estación WebSIDD</h1>
+        <p class="subtitle">Panel de control y monitoreo ambiental para Raspberry Pi</p>
+    </header>
+    
+    <section class="dashboard-actions">
+        <a href="/ejecutar_sidd" class="btn btn-sidd">🚀 Forzar Lectura</a>
+        <a href="/generar_grafico" class="btn btn-graficos">📊 Renderizar Gráfico</a>
+    </section>
+
+    <section class="chart-section">
+        <div class="chart-wrapper">
+            {% if grafico_existe %}
+                <!-- El parámetro dinámico t evita que el navegador cargue una imagen vieja desde su caché -->
+                <img src="{{ url_for('static', filename='reporte_clima.png') }}?t={{ range(1, 99999) | random }}" alt="Historial Meteorológico de la Estación">
+            {% else %}
+                <div class="no-data">
+                    <span class="icon-alert">📊</span>
+                    <p>No se encontró ningún reporte visual generado en el sistema.</p>
+                    <p style="font-size: 0.85rem; color: #a0aec0;">Presioná el botón verde para crear el primer gráfico desde tu base de datos SQLite.</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
