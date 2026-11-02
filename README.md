@@ -25,17 +25,17 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 
 ### Sensor DHT22 (Pines Digitales)
 *   **Pata 1 (VCC):** A la línea **roja (+)** de 3.3V.
-*   **Pata 2 (DATA):** Al pin **GPIO 26** del T-Cobbler.
+*   **Pata 2 (DATA):** Al pin **GPIO 26** (`G26`) del T-Cobbler.
 *   **Pata 4 (GND):** A la línea **azul (-)** de GND.
 *   *Puente de resistencia:* Clavar la resistencia de **10kΩ** uniendo la Pata 1 y la Pata 2 en la protoboard (omitir si el DHT viene en plaquita de 3 pines).
 
 ### Sensor BMP280 (Protocolo I2C)
 *   **VCC:** A la línea **roja (+)** de 3.3V.
 *   **GND:** A la línea **azul (-)** de GND.
-*   **SCL:** Al pin **SCL** del T-Cobbler.
-*   **SDA:** Al pin **SDA** del T-Cobbler.
+*   **SCL:** Al pin **SCL** (`GPIO3`) del T-Cobbler.
+*   **SDA:** Al pin **SDA** (`GPIO2`) del T-Cobbler.
 *   **CSB / CS:** A la línea **roja (+)** de 3.3V (fija el modo I2C).
-*   **SDO:** Queda **completamente suelto** (asigna la dirección por defecto `0x76`).
+*   **SDO:** Queda **completamente sueltos** (asigna la dirección por defecto `0x76`).
 
 ---
 
@@ -52,7 +52,7 @@ sudo raspi-config
 ### 2. Actualizar el sistema e instalar dependencias básicas
 ```bash
 sudo apt update
-sudo apt install -y python3-pip i2c-tools python3-setuptools wget make gcc
+sudo apt install -y python3-pip i2c-tools python3-setuptools wget make gcc python3-venv
 ```
 
 ### 3. Verificar que la Pi reconozca el sensor de presión
@@ -79,8 +79,26 @@ sudo systemctl enable pigpiod
 sudo systemctl start pigpiod
 ```
 
-### 6. Instalar las librerías de Python
-Parado dentro de la carpeta del proyecto donde se encuentran tus scripts (`SIDD.py`, `Graficos.py` y `WebSIDD.py`), ejecutá:
+### 6. Configurar el Entorno de Python (Elegir un método)
+
+Debido a las políticas de seguridad de los sistemas operativos modernos de Raspberry Pi, tenés dos opciones para instalar los paquetes necesarios:
+
+#### Opción A: Usando un Entorno Virtual (Recomendado y más limpio)
+Creá un paraguas aislado para que las librerías de tu estación no entren en conflicto con el sistema global. Ejecutá esto parado dentro de la carpeta de tu proyecto:
+```bash
+# Crear el entorno virtual llamado 'env'
+python3 -m venv env
+
+# ACTIVAR el entorno (Tenés que ejecutar este comando siempre que abras una terminal nueva para usar el proyecto)
+source env/bin/activate
+
+# Instalar las librerías dentro del entorno activo
+pip3 install flask matplotlib adafruit-circuitpython-bmp280 pigpio-dht
+```
+*(Vas a notar un `(env)` a la izquierda de tu terminal indicando que estás adentro de forma segura)*.
+
+#### Opción B: Forzar la instalación global (Método Directo)
+Si preferís omitir el entorno virtual e instalar todo directamente en la raíz de tu Raspberry Pi, utilizá el flag de evasión:
 ```bash
 pip3 install flask matplotlib adafruit-circuitpython-bmp280 pigpio-dht --break-system-packages
 ```
@@ -89,7 +107,7 @@ pip3 install flask matplotlib adafruit-circuitpython-bmp280 pigpio-dht --break-s
 
 ## 🏃‍♂️ Cómo arrancar el proyecto
 
-Para iniciar el panel de control, solo tenés que ejecutar el archivo del servidor web:
+Para iniciar el panel de control, asegurate de estar parado en la carpeta del proyecto (y con el entorno virtual activo si elegiste la Opción A) y ejecutá el archivo del servidor web:
 
 ```bash
 python3 WebSIDD.py
@@ -98,3 +116,4 @@ python3 WebSIDD.py
 ### Acceso desde otros dispositivos (Celular / PC):
 1. Averiguá la IP de tu placa ejecutando `hostname -I` en la Pi (ejemplo: `192.168.1.45`).
 2. Abrí el navegador de tu celular conectado al mismo Wi-Fi e ingresá a: `http://TU_IP_LOCAL:5000` (ej: `http://192.168.1.45:5000`).
+
