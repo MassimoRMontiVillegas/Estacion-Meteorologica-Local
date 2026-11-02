@@ -41,7 +41,12 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 
 ## 🚀 Guía de Instalación del Software (Paso a Paso)
 
-Abrí la terminal de la Raspberry Pi y ejecutá los siguientes comandos en orden:
+> ⚠️ **IMPORTANTE:** Asegura que estás en home y no en otra carpeta, para asegurarte debes ejecutar:
+
+```cd ~
+```
+
+Ahora si, abrí la terminal de la Raspberry Pi y ejecutá los siguientes comandos en orden:
 
 ### 1. Activar la interfaz de hardware I2C
 ```bash
@@ -64,16 +69,34 @@ sudo i2cdetect -y 1
 ### 4. Compilar e instalar el motor de pines de bajo nivel (pigpiod)
 Este motor es indispensable para que las lecturas del DHT22 sean 100% estables en Linux:
 ```bash
-wget https://github.com
+cd /tmp
+rm -rf v79.tar.gz pigpio-79
+wget https://github.com/joan2937/pigpio/archive/v79.tar.gz
 tar zxf v79.tar.gz
 cd pigpio-79
 make
 sudo make install
-cd ..
+cd ~
 ```
 
 ### 5. Activar el servicio del motor en segundo plano
 ```bash
+sudo bash -c 'cat > /etc/systemd/system/pigpiod.service << "EOF"
+[Unit]
+Description=Daemon to handle pigpio GPIO pins
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/pigpiod
+ExecStop=/bin/systemctl kill pigpiod.service
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF'
+
 sudo systemctl daemon-reload
 sudo systemctl enable pigpiod
 sudo systemctl start pigpiod
@@ -93,7 +116,7 @@ python3 -m venv env
 source env/bin/activate
 
 # Instalar las librerías dentro del entorno activo
-pip3 install flask matplotlib adafruit-circuitpython-bmp280 pigpio-dht
+pip3 install flask matplotlib adafruit-circuitpython-bmp280 pigpio-dht --break-system-packages
 ```
 *(Vas a notar un `(env)` a la izquierda de tu terminal indicando que estás adentro de forma segura)*.
 
