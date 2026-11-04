@@ -43,7 +43,8 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 
 > ⚠️ **IMPORTANTE:** Asegura que estás en home y no en otra carpeta, para asegurarte debes ejecutar:
 
-```cd ~
+```bash
+cd ~
 ```
 
 Ahora si, abrí la terminal de la Raspberry Pi y ejecutá los siguientes comandos en orden:
