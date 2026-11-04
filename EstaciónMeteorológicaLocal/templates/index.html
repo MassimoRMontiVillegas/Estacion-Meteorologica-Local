@@ -4,17 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Control - WebSIDD</title>
-    <!-- Vinculamos el archivo CSS externo usando las rutas dinámicas de Flask -->
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>🌤️ Estación WebSIDD</h1>
-        <p class="subtitle">Panel de control y monitoreo ambiental para Raspberry Pi</p>
+        <h1>🌤️ Estación WebSIDD & Domótica</h1>
+        <p class="subtitle">Panel de control y automatización del hogar en Raspberry Pi</p>
     </header>
     
+    <!-- SECCIÓN DE ESTADO DE LA CASA Y SENSORES -->
+    <section class="home-status">
+        <h2>🏠 Estado de la Casa Inteligente y Advertencias</h2>
+        <p class="status-time">Última lectura: {{ estado.fecha }}</p>
+        
+        <div class="status-grid">
+            <div class="card-metric">
+                <span>🌡️ Temperatura</span>
+                <strong>{{ estado.temperatura }} °C</strong>
+            </div>
+            <div class="card-metric">
+                <span>💧 Humedad</span>
+                <strong>{{ estado.humedad }} %</strong>
+            </div>
+            <div class="card-metric">
+                <span>📈 Presión (Barómetro)</span>
+                <strong>{{ estado.presion }} hPa</strong>
+            </div>
+            <div class="card-metric" style="grid-column: span auto;">
+                <span>⚠️ Advertencia Meteorológica</span>
+                <strong>{{ estado.alerta_presion }}</strong>
+            </div>
+            <div class="card-metric">
+                <span>🪟 Ventanas (Acción Humedad)</span>
+                <strong>{{ estado.ventanas }}</strong>
+            </div>
+            <div class="card-metric">
+                <span>❄️ Climatización (Acción Temp)</span>
+                <strong>{{ estado.aire }}</strong>
+            </div>
+        </div>
+    </section>
+
     <section class="dashboard-actions">
         <a href="/ejecutar_sidd" class="btn btn-sidd">🚀 Forzar Lectura</a>
         <a href="/generar_grafico" class="btn btn-graficos">📊 Renderizar Gráfico</a>
@@ -23,7 +55,6 @@
     <section class="chart-section">
         <div class="chart-wrapper">
             {% if grafico_existe %}
-                <!-- El parámetro dinámico t evita que el navegador cargue una imagen vieja desde su caché -->
                 <img src="{{ url_for('static', filename='reporte_clima.png') }}?t={{ range(1, 99999) | random }}" alt="Historial Meteorológico de la Estación">
             {% else %}
                 <div class="no-data">

@@ -1,6 +1,17 @@
-# 🌤️ Estación Meteorológica WebSIDD
+# 🌤️ Estación Meteorológica SIDD
 
-Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide temperatura, humedad ambiental y presión atmosférica utilizando sensores físicos, almacena el historial en una base de datos local **SQLite** y expone un panel de control interactivo mediante un servidor web **Flask** accesible desde cualquier dispositivo de la red local.
+Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide temperatura, humedad ambiental y presión atmosférica utilizando sensores físicos, almacena el historial en una base de datos local **SQLite** y expone un panel de control interactivo mediante un servidor web **Flask** con automatización de hogar y advertencias meteorológicas en tiempo real.
+
+---
+
+## 🚀 Funcionalidades Actuales
+
+*   **Monitoreo en Tiempo Real:** Lectura de temperatura, humedad y presión barométrica desde la Raspberry Pi.
+*   **Automatización Domótica (Temp / Humedad):** 
+    *   **Ventanas:** Se cierran automáticamente si la humedad supera el 80% (detección de lluvia ambiental).
+    *   **Climatización:** Enciende el aire acondicionado en *Modo Frío* si la temperatura supera los 27°C, o en *Modo Calefacción* si desciende de los 18°C.
+*   **Advertencias Barométricas Preventivas:** Monitoreo analítico de la presión atmosférica para emitir alertas tempranas en pantalla ante caídas bruscas (posible tormenta) o subidas repentinas (buen tiempo), sin alterar de forma forzosa los actuadores físicos.
+*   **Panel Web Interactivo:** Interfaz visual con Flask para ver el estado de la casa, forzar lecturas manuales y renderizar gráficos estadísticos históricos con Matplotlib.
 
 ---
 
@@ -35,14 +46,13 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 *   **SCL:** Al pin **SCL** (`GPIO3`) del T-Cobbler.
 *   **SDA:** Al pin **SDA** (`GPIO2`) del T-Cobbler.
 *   **CSB / CS:** A la línea **roja (+)** de 3.3V (fija el modo I2C).
-*   **SDO:** Queda **completamente sueltos** (asigna la dirección por defecto `0x76`).
+*   **SDO:** Queda **completamente suelto** (asigna la dirección por defecto `0x76`).
 
 ---
 
 ## 🚀 Guía de Instalación del Software (Paso a Paso)
 
-> ⚠️ **IMPORTANTE:** Asegura que estás en home y no en otra carpeta, para asegurarte debes ejecutar:
-
+> ⚠️ **IMPORTANTE:** Asegurate de estar en tu directorio home ejecutando:
 ```bash
 cd ~
 ```
