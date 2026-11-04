@@ -57,7 +57,7 @@ sudo raspi-config
 ### 2. Actualizar el sistema e instalar dependencias básicas
 ```bash
 sudo apt update
-sudo apt install -y python3-pip i2c-tools python3-setuptools wget make gcc python3-venv
+sudo apt install -y python3-pip i2c-tools python3-setuptools wget
 ```
 
 ### 3. Verificar que la Pi reconozca el sensor de presión
