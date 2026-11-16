@@ -177,12 +177,12 @@ python3 WebSIDD.py
 
 ## Documentación del proyecto:
 
-Día 1: Comenzamos definiendo que proyecto debíamos concretar y como.
+Día 1: Comenzamos definiendo que proyecto debíamos concretar, cómo íbamos a integrar el uso de la Raspberry Pi, qué resultados nos debía dar, cómo se debía ver, qué objetos y componentes debíamos conseguir, etc. Al final decidimos hacer una estación meteorológica, que detecte temperatura y humedad a través de la RasPi.
 
-Día 2: Realizamos un esquema de boceto para las conexiones y arrancamos a escribir el código.
+Día 2: Realizamos un esquema de boceto para las conexiones y arrancamos a escribir el código. Sumado a esto, el profesor nos pidió que sumemos al proyecto una pagina web donde estén visibles los datos que nos daría la RasPi. Llegando al final del día, reunimos los componentes para la RasPi, conectamos todo a la protoboard y realizamos un script básico de comprobación de funcionamiento de componentes, aunque no lo pudimos usar debido a que finalizo el dia de taller. 
 
-Día 3: Aquí comenzó el primer problema, el sensor BMP280 no era detectado por el bus I2C de la Raspberry Pi, que solucionamos configurando sus opciones de interfase.
+Día 3: En el tercer dia, comenzamos con el código, y gracias a la determinación de nuestro compañero Massimo Ricardo Monti Villegas, logramos finalizar el código ese mismo dia. Sin embargo, aquí comenzó el primer problema, el sensor BMP280 no era detectado por el bus I2C de la Raspberry Pi, lo terminamos solucionando configurando sus opciones de interfase.
 
-Día 4: El segundo problema comenzó con el sensor DHT22, que señalizaba un error de "Check Wiring" pero todos los cables eran nuevos y el código no tenía errores. Entonces probamos instalando nuevas librerías y cambiando el código cada vez que lo hacíamos, pero siempre ponía el mismo error.
+Día 4: Luego de volver a conectar todo, nos dimos cuenta que faltaba un componente (el cual fue encontrado roto en su caja), por lo que se perdió parte del dia buscando un reemplazo. Al conseguirlo, el segundo problema comenzó con el sensor DHT22, que señalizaba un error de "Check Wiring" pero todos los cables eran nuevos y el código no tenía errores. Entonces probamos instalando nuevas librerías y cambiando el código cada vez que lo hacíamos, pero siempre ponía el mismo error.
 
-Día 5, 6 y 7: La verdad profe, me rindo. Siempre me tira el mismo error no importa que haga, ya no parece solo un error nuestro. Voy a tirar un triple y que sea lo que Dios quiera. Me parece que hay que usar una Raspberry Pi de fábrica sin librerías para que nada haga conflicto y funcione. Ya hicimos una página web usando Flask para automatizar los comandos de una casa inteligente (Cerrar las ventanas, prender el aire, etc.) en base a las lecturas de los sensores, pero no puedo seguir probando si no quiere funcionar.
+Día 5, 6 y 7: Después de intentar todo, profe, me rindo. Siempre me tira el mismo error no importa que haga, ya no parece solo un error nuestro. Voy a tirar un triple y que sea lo que Dios quiera. Me parece que hay que usar una Raspberry Pi de fábrica sin librerías para que nada haga conflicto y funcione. Ya hicimos una página web usando Flask para automatizar los comandos de una casa inteligente (Cerrar las ventanas, prender el aire, etc.) en base a las lecturas de los sensores, pero no puedo seguir probando si no quiere funcionar.
