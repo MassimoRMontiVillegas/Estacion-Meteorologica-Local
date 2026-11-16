@@ -17,7 +17,10 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 
 ## 🛠️ Requisitos de Hardware
 
-*   **Raspberry Pi 3 Model B** (con Raspberry Pi OS / Debian Bookworm instalado).
+*   **Raspberry Pi 3 Model B**.
+*   **Tarjeta MicroSD de 16gb o más**.
+*   **Computadora con lector de Tarjetas MicroSD**.
+*   **Conexión a Internet**.
 *   **Adaptador de pines T-Cobbler** para Protoboard (40 pines).
 *   **Sensor DHT22** (Temperatura y Humedad - pin digital).
 *   **Sensor BMP280** (Presión Atmosférica - bus I2C de 6 pines).
@@ -52,32 +55,53 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 
 ## 🚀 Guía de Instalación del Software (Paso a Paso)
 
+### Primero, vamos a instalar el Sistema Operativo en la Raspberry Pi 3B
+
+#### 1. Descargá e instalá **Raspberry Pi Imager** en tu computadora desde la [página oficial de Raspberry Pi](https://raspberrypi.com).
+#### 2. Insertá la tarjeta microSD en tu computadora.
+#### 3. Abrí **Raspberry Pi Imager** y completá las tres opciones principales:
+      * **Dispositivo (Device):** Elegí *Raspberry Pi 3B*.
+      * **Sistema Operativo (OS):** Seleccioná *Debian Trixie*.
+      * **Almacenamiento (Storage):** Seleccioná tu tarjeta microSD. *(Atención: se borrarán todos los datos de la tarjeta).*
+#### 4. Hacé clic en **Siguiente (Next)**. Cuando te pregunte si querés aplicar ajustes personalizados, elegí **Editar ajustes          
+      (Edit Settings)** para preconfigurar:
+         * Nombre de usuario y contraseña.
+         * Red Wi-Fi (nombre y clave).
+         * Activar **SSH** en la pestaña *Servicios* (muy útil para conectarte de forma remota sin monitor).
+#### 5. Guardá los cambios, confirmá la escritura y esperá a que termine el proceso de grabado y verificación.
+#### 6. Retirá la microSD de forma segura, insertala en la Raspberry Pi y conectala a la corriente para encenderla.
+
+Ahora si, abrí la terminal de la Raspberry Pi y ejecutá los siguientes comandos en orden:
+
 > ⚠️ **IMPORTANTE:** Asegurate de estar en tu directorio home ejecutando:
 ```bash
 cd ~
 ```
 
-Ahora si, abrí la terminal de la Raspberry Pi y ejecutá los siguientes comandos en orden:
+### 1. Clonar el repositorio para instalar los archivos del proyecto:
+   ```bash
+   git clone https://github.com/MassimoRMontiVillegas/Estacion-Meteorologica-Local.git
+   ```
 
-### 1. Activar la interfaz de hardware I2C
+### 2. Activar la interfaz de hardware I2C
 ```bash
 sudo raspi-config
 ```
 *(Ir a `Interface Options` -> `I2C` -> Seleccionar `<Yes>` -> Salir con `<Finish>`)*.
 
-### 2. Actualizar el sistema e instalar dependencias básicas
+### 3. Actualizar el sistema e instalar dependencias básicas
 ```bash
 sudo apt update
 sudo apt install -y python3-pip i2c-tools python3-setuptools wget
 ```
 
-### 3. Verificar que la Pi reconozca el sensor de presión
+### 4. Verificar que la Pi reconozca el sensor de presión
 ```bash
 sudo i2cdetect -y 1
 ```
 *(Deberías ver el número **76** o **77** reflejado en la grilla de la pantalla. Si no aparece, revisar el cableado del BMP280)*.
 
-### 4. Compilar e instalar el motor de pines de bajo nivel (pigpiod)
+### 5. Compilar e instalar el motor de pines de bajo nivel (pigpiod)
 Este motor es indispensable para que las lecturas del DHT22 sean 100% estables en Linux:
 ```bash
 cd /tmp
@@ -90,7 +114,7 @@ sudo make install
 cd ~
 ```
 
-### 5. Activar el servicio del motor en segundo plano
+### 6. Activar el servicio del motor en segundo plano
 ```bash
 sudo bash -c 'cat > /etc/systemd/system/pigpiod.service << "EOF"
 [Unit]
@@ -113,7 +137,7 @@ sudo systemctl enable pigpiod
 sudo systemctl start pigpiod
 ```
 
-### 6. Configurar el Entorno de Python (Elegir un método)
+### 7. Configurar el Entorno de Python (Elegir un método)
 
 Debido a las políticas de seguridad de los sistemas operativos modernos de Raspberry Pi, tenés dos opciones para instalar los paquetes necesarios:
 
