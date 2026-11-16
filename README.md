@@ -152,8 +152,13 @@ python3 WebSIDD.py
 2. Abrí el navegador de tu celular conectado al mismo Wi-Fi e ingresá a: `http://TU_IP_LOCAL:5000` (ej: `http://192.168.1.45:5000`).
 
 ## Documentación del proyecto:
+
 Día 1: Comenzamos definiendo que proyecto debíamos concretar y como.
+
 Día 2: Realizamos un esquema de boceto para las conexiones y arrancamos a escribir el código.
+
 Día 3: Aquí comenzó el primer problema, el sensor BMP280 no era detectado por el bus I2C de la Raspberry Pi, que solucionamos configurando sus opciones de interfase.
+
 Día 4: El segundo problema comenzó con el sensor DHT22, que señalizaba un error de "Check Wiring" pero todos los cables eran nuevos y el código no tenía errores. Entonces probamos instalando nuevas librerías y cambiando el código cada vez que lo hacíamos, pero siempre ponía el mismo error.
+
 Día 5, 6 y 7: La verdad profe, me rindo. Siempre me tira el mismo error no importa que haga, ya no parece solo un error nuestro. Voy a tirar un triple y que sea lo que Dios quiera. Me parece que hay que usar una Raspberry Pi de fábrica sin librerías para que nada haga conflicto y funcione. Ya hicimos una página web usando Flask para automatizar los comandos de una casa inteligente (Cerrar las ventanas, prender el aire, etc.) en base a las lecturas de los sensores, pero no puedo seguir probando si no quiere funcionar.
