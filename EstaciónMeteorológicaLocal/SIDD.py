@@ -133,6 +133,6 @@ if __name__ == "__main__":
     try:
         while True:
             registrar_clima()
-            time.sleep(5.0) 
+            time.sleep(900.0) 
     except KeyboardInterrupt:
         print("\nEstación SIDD detenida por el usuario.")
