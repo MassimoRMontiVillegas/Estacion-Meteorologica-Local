@@ -192,6 +192,7 @@ pip3 install flask matplotlib adafruit-circuitpython-bmp280 pigpio-dht --break-s
 Para iniciar el panel de control, asegurate de estar parado en la carpeta del proyecto (y con el entorno virtual activo si elegiste la Opción A) y ejecutá el archivo del servidor web:
 
 ```bash
+cd /home/alumno/Estacion-Meteorologica-Local/EstaciónMeteorológicaLocal
 python3 WebSIDD.py
 ```
 
