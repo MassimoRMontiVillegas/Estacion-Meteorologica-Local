@@ -58,20 +58,42 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 ### Primero, vamos a instalar el Sistema Operativo en la Raspberry Pi 3B
 
 #### 1. Descargá e instalá **Raspberry Pi Imager** en tu computadora desde la [página oficial de Raspberry Pi](https://raspberrypi.com).
-#### 2. Insertá la tarjeta microSD en tu computadora.
-#### 3. Abrí **Raspberry Pi Imager** y completá las tres opciones principales:
-      * **Dispositivo (Device):** Elegí *Raspberry Pi 3B*.
-      * **Sistema Operativo (OS):** Seleccioná *Debian Trixie*.
-      * **Almacenamiento (Storage):** Seleccioná tu tarjeta microSD. *(Atención: se borrarán todos los datos de la tarjeta).*
-#### 4. Hacé clic en **Siguiente (Next)**. Cuando te pregunte si querés aplicar ajustes personalizados, elegí **Editar ajustes          
-      (Edit Settings)** para preconfigurar:
-         * Nombre de usuario y contraseña.
-         * Red Wi-Fi (nombre y clave).
-         * Activar **SSH** en la pestaña *Servicios* (muy útil para conectarte de forma remota sin monitor).
-#### 5. Guardá los cambios, confirmá la escritura y esperá a que termine el proceso de grabado y verificación.
-#### 6. Retirá la microSD de forma segura, insertala en la Raspberry Pi y conectala a la corriente para encenderla.
 
-Ahora si, abrí la terminal de la Raspberry Pi y ejecutá los siguientes comandos en orden:
+#### 2. Insertá la tarjeta microSD en tu computadora.
+
+#### 3. Abrí **Raspberry Pi Imager** y completá las tres opciones principales:
+
+**Dispositivo (Device):** Elegí *Raspberry Pi 3*.
+**Sistema Operativo (OS):** Seleccioná *Raspberry Pi OS (64-bit)*.
+**Almacenamiento (Storage):** Seleccioná tu tarjeta microSD. *(Atención: se borrarán todos los datos de la tarjeta).*
+#### 4. Hacé clic en **Siguiente (Next)**. Cuando te pregunte si querés aplicar ajustes personalizados, elegí **Editar ajustes
+
+(Edit Settings)** para preconfigurar:
+
+Nombre de usuario y contraseña.
+Red Wi-Fi (nombre y clave).
+Activar **SSH** en la pestaña *Servicios* (muy útil para conectarte de forma remota sin monitor).
+
+#### 5. Guardá los cambios, confirmá la escritura y esperá a que termine el proceso de grabado y verificación.
+
+#### 6. Retirá la microSD de forma segura, insertala en la Raspberry Pi y conectala a la corriente para encenderla.
+   
+### Segundo, configuramos e instalamos el entorno dentro de la Raspberry Pi
+
+#### 1. Esperá entre 1 y 2 minutos después de enchufarla para que realice el primer arranque, expanda el sistema de archivos y se conecte a tu red Wi-Fi, para luego abrir la terminal.
+
+#### 2. Actualizá los paquetes del sistema operativo para asegurarte de tener los últimos parches y librerías al día:
+      ```bash
+      sudo apt update && sudo apt upgrade -y
+      ```
+      (Este paso puede demorar unos minutos dependiendo de tu conexión a internet).
+
+#### 3. Instalá las herramientas base necesarias:
+      ```bash
+      sudo apt install -y git python3-pip python3-venv
+      ```
+
+Ahora si, en la misma terminal, ejecutá los siguientes comandos en orden:
 
 > ⚠️ **IMPORTANTE:** Asegurate de estar en tu directorio home ejecutando:
 ```bash
@@ -91,8 +113,7 @@ sudo raspi-config
 
 ### 3. Actualizar el sistema e instalar dependencias básicas
 ```bash
-sudo apt update
-sudo apt install -y python3-pip i2c-tools python3-setuptools wget
+sudo apt install -y i2c-tools python3-setuptools wget
 ```
 
 ### 4. Verificar que la Pi reconozca el sensor de presión
