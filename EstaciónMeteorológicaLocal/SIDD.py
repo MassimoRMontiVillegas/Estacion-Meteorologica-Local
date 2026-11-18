@@ -1,5 +1,6 @@
 import sqlite3
 import time
+import random
 from datetime import datetime
 import board
 import adafruit_bmp280
@@ -9,10 +10,24 @@ from pigpio_dht import DHT22
 DB_NOMBRE = "clima_estacion.db"
 
 PIN_DHT_DIGITAL = 26
-sensor_dht = DHT22(PIN_DHT_DIGITAL)
+
+# Modo simulación: si el DHT22 no responde, poner True para generar una humedad
+# simulada (variación gradual entre 40 y 90 %). Con False se lee el sensor real.
+SIMULAR_HUMEDAD = False
+_humedad_simulada = 60.0
+
+# timeout_secs más largo que el valor por defecto (0.5 s) para dar margen al sensor
+sensor_dht = None if SIMULAR_HUMEDAD else DHT22(PIN_DHT_DIGITAL, timeout_secs=1.0)
 
 i2c = board.I2C()
 sensor_bmp = adafruit_bmp280.Adafruit_BMP280_I2C(i2c, address=0x76)
+
+
+def humedad_simulada():
+    """Humedad simulada: camina de a poco entre 40 % y 90 % (solo para demostración)."""
+    global _humedad_simulada
+    _humedad_simulada = min(90.0, max(40.0, _humedad_simulada + random.uniform(-6.0, 6.0)))
+    return _humedad_simulada
 
 
 def inicializar_base_datos():
@@ -106,15 +121,21 @@ def registrar_clima():
     except Exception as error:
         print(f"Aviso BMP280: {error}")
 
-    try:
-        resultado = sensor_dht.read()
-        if resultado['valid']:
-            temperatura = resultado['temperature']
-            humedad = resultado['humidity']
-        else:
-            print("Aviso DHT22: Lectura inválida.")
-    except Exception as error:
-        print(f"Aviso DHT22: Error ({error})")
+    if SIMULAR_HUMEDAD:
+        humedad = humedad_simulada()
+        print(f"[SIMULACIÓN] Humedad simulada: {humedad:.1f}%")
+    else:
+        try:
+            # read() devuelve {'temp_c', 'temp_f', 'humidity', 'valid'}
+            # (la clave NO es 'temperature'); retries=3 repite si la lectura es inválida
+            resultado = sensor_dht.read(retries=3)
+            if resultado['valid']:
+                temperatura = resultado['temp_c']
+                humedad = resultado['humidity']
+            else:
+                print("Aviso DHT22: Lectura inválida.")
+        except Exception as error:
+            print(f"Aviso DHT22: Error ({type(error).__name__}: {error})")
 
     if temperatura is not None or humedad is not None or presion is not None:
         temp_g = round(temperatura, 1) if temperatura is not None else None
