@@ -13,7 +13,7 @@ print("=============================================\n")
 # 1. Inicialización del hardware
 try:
     print("[⚙️] Conectando con el motor pigpio (DHT22)...")
-    sensor_dht = DHT22(PIN_DHT)
+    sensor_dht = DHT22(PIN_DHT, timeout_secs=1.0)
     
     print("[⚙️] Conectando con el bus I2C (BMP280)...")
     i2c = board.I2C()
@@ -42,9 +42,9 @@ try:
 
         # --- Lectura del DHT22 ---
         try:
-            resultado = sensor_dht.read()
+            resultado = sensor_dht.read(retries=3)
             if resultado['valid']:
-                print(f"[DHT22]  -> Temperatura: {resultado['temperature']}°C | Humedad: {resultado['humidity']}%")
+                print(f"[DHT22]  -> Temperatura: {resultado['temp_c']}°C | Humedad: {resultado['humidity']}%")
             else:
                 print("[DHT22]  -> ⚠️ Lectura inválida (el sensor devolvió datos corruptos o vacíos)")
         except Exception as e:
