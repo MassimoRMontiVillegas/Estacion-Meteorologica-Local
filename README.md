@@ -63,19 +63,19 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 
 #### 3. Abrí **Raspberry Pi Imager** y completá las tres opciones principales:
 
-   **Dispositivo (Device):** Elegí *Raspberry Pi 3*.
+   ##### **Dispositivo (Device):** Elegí *Raspberry Pi 3*.
 
-   **Sistema Operativo (OS):** Seleccioná *Raspberry Pi OS (64-bit)*.
+   ##### **Sistema Operativo (OS):** Seleccioná *Raspberry Pi OS (64-bit)*.
 
-   **Almacenamiento (Storage):** Seleccioná tu tarjeta microSD. *(Atención: se borrarán todos los datos de la tarjeta).*
+   ##### **Almacenamiento (Storage):** Seleccioná tu tarjeta microSD. *(Atención: se borrarán todos los datos de la tarjeta).*
 
 #### 4. Hacé clic en **Siguiente (Next)**. Cuando te pregunte si querés aplicar ajustes personalizados, elegí **Editar ajustes (Edit Settings)** para preconfigurar:
 
-   Nombre de usuario y contraseña.
+   ##### Nombre de usuario y contraseña.
 
-   Red Wi-Fi (nombre y clave).
+   ##### Red Wi-Fi (nombre y clave).
 
-   Activar **SSH** en la pestaña *Servicios* (muy útil para conectarte de forma remota sin monitor).
+   ##### Activar **SSH** en la pestaña *Servicios* (muy útil para conectarte de forma remota sin monitor).
 
 #### 5. Guardá los cambios, confirmá la escritura y esperá a que termine el proceso de grabado y verificación.
 
