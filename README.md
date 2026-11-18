@@ -114,7 +114,7 @@ sudo raspi-config
 ```
 *(Ir a `Interface Options` -> `I2C` -> Seleccionar `<Yes>` -> Salir con `<Finish>`)*.
 
-### 3. Actualizar el sistema e instalar dependencias básicas
+### 3. Instalar dependencias básicas
 ```bash
 sudo apt install -y i2c-tools python3-setuptools wget
 ```
