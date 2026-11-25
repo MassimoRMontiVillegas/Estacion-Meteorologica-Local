@@ -1,7 +1,7 @@
 import time
 import board
 import adafruit_bmp280
-from pigpio_dht import DHT22  # <-- La librería estable que usa el motor pigpio
+from pigpio_dht import DHT11  # <-- La librería estable que usa el motor pigpio
 
 # Configuración del pin físico elegido para el DHT22
 PIN_DHT = 26 
@@ -13,7 +13,7 @@ print("=============================================\n")
 # 1. Inicialización del hardware
 try:
     print("[⚙️] Conectando con el motor pigpio (DHT22)...")
-    sensor_dht = DHT22(PIN_DHT, timeout_secs=1.0)
+    sensor_dht = DHT11(PIN_DHT, timeout_secs=1.0)
     
     print("[⚙️] Conectando con el bus I2C (BMP280)...")
     i2c = board.I2C()

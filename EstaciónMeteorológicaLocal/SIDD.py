@@ -4,7 +4,7 @@ import random
 from datetime import datetime
 import board
 import adafruit_bmp280
-from pigpio_dht import DHT22
+from pigpio_dht import DHT11
 
 # --- CONFIGURACIÓN ---
 DB_NOMBRE = "clima_estacion.db"
@@ -17,7 +17,7 @@ SIMULAR_HUMEDAD = False
 _humedad_simulada = 60.0
 
 # timeout_secs más largo que el valor por defecto (0.5 s) para dar margen al sensor
-sensor_dht = None if SIMULAR_HUMEDAD else DHT22(PIN_DHT_DIGITAL, timeout_secs=1.0)
+sensor_dht = None if SIMULAR_HUMEDAD else DHT11(PIN_DHT_DIGITAL, timeout_secs=1.0)
 
 i2c = board.I2C()
 sensor_bmp = adafruit_bmp280.Adafruit_BMP280_I2C(i2c, address=0x76)
@@ -65,12 +65,17 @@ def evaluar_acciones_casa(temp, hum, pres):
 
     if hum is not None and hum > 80.0:
         ventanas = "Cerradas (¡Lluvia por Humedad!) 🌧️"
+    
+    if hum is not None and hum < 80.0:
+        ventanas = "Abiertas (Dejó de llover!) 🌤️"
 
     if temp is not None:
         if temp > 27.0:
             aire = "Encendido en Modo Frío ❄️"
         elif temp < 18.0:
             aire = "Encendido en Modo Calefacción ☀️"
+        else:
+            aire = "Apagado, está templado."
 
     # 2. Advertencias preventivas (Solo evalúan la Presión, sin cambiar actuadores)
     alerta_presion = "Estable (Sin avisos) 🌤️"
