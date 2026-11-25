@@ -22,10 +22,10 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 *   **Computadora con lector de Tarjetas MicroSD**.
 *   **Conexión a Internet**.
 *   **Adaptador de pines T-Cobbler** para Protoboard (40 pines).
-*   **Sensor DHT22** (Temperatura y Humedad - pin digital).
+*   **Sensor DHT11** (Temperatura y Humedad - pin digital).
 *   **Sensor BMP280** (Presión Atmosférica - bus I2C de 6 pines).
 *   **Protoboard** + Cables Jumper Macho-Macho.
-*   **1 Resistencia de 10kΩ** (solo si el DHT22 es el modelo suelto de 4 patas).
+*   **1 Resistencia de 10kΩ** (solo si el DHT11 es el modelo suelto de 4 patas).
 
 ---
 
@@ -37,7 +37,7 @@ Proyecto domótico para **Raspberry Pi 3B** desarrollado en **Python 3**. Mide t
 *   Llevá un cable desde el pin **3V3** del T-Cobbler a la **línea larga roja (+)** de la protoboard.
 *   Llevá un cable desde un pin **GND** del T-Cobbler a la **línea larga azul (-)** de la protoboard.
 
-### Sensor DHT22 (Pines Digitales)
+### Sensor DHT11 (Pines Digitales)
 *   **Pata 1 (VCC):** A la línea **roja (+)** de 3.3V.
 *   **Pata 2 (DATA):** Al pin **GPIO 26** (`G26`) del T-Cobbler.
 *   **Pata 4 (GND):** A la línea **azul (-)** de GND.
@@ -126,7 +126,7 @@ sudo i2cdetect -y 1
 *(Deberías ver el número **76** o **77** reflejado en la grilla de la pantalla. Si no aparece, revisar el cableado del BMP280)*.
 
 ### 5. Compilar e instalar el motor de pines de bajo nivel (pigpiod)
-Este motor es indispensable para que las lecturas del DHT22 sean 100% estables en Linux:
+Este motor es indispensable para que las lecturas del DHT11 sean 100% estables en Linux:
 ```bash
 cd /tmp
 rm -rf v79.tar.gz pigpio-79
@@ -207,8 +207,8 @@ python3 WebSIDD.py
 
 **Día 3: Desarrollo del código y primer inconveniente.** Iniciamos la programación y, gracias al compromiso del equipo entero, logramos finalizar el código el mismo día. Sin embargo, surgió el primer inconveniente: el bus I2C de la Raspberry Pi no detectaba el sensor BMP280. Lo resolvimos configurando las opciones de interfaz correspondientes.
 
-**Día 4: Falla de un componente y segundo inconveniente.** Al rearmar el circuito, detectamos que faltaba un componente, que además estaba dañado en su caja, por lo que dedicamos parte de la jornada a conseguir un reemplazo. Una vez resuelto, apareció un segundo inconveniente con el sensor DHT22, que devolvía el error “Check Wiring” aunque los cables eran nuevos y el código no presentaba errores de sintaxis. Probamos instalar distintas librerías y modificar el código en cada intento, pero errores similares a través de las distintas librerías persistieron.
+**Día 4: Falla de un componente y segundo inconveniente.** Al rearmar el circuito, detectamos que faltaba un componente, que además estaba dañado en su caja, por lo que dedicamos parte de la jornada a conseguir un reemplazo. Una vez resuelto, apareció un segundo inconveniente con el sensor DHT11, que devolvía el error “Check Wiring” aunque los cables eran nuevos y el código no presentaba errores de sintaxis. Probamos instalar distintas librerías y modificar el código en cada intento, pero errores similares a través de las distintas librerías persistieron.
 
-**Días 5, 6 y 7: Pruebas y avance en la aplicación web.** Tras agotar las alternativas que teníamos, los errores persistían sin importar los cambios realizados. Planteamos como hipótesis utilizar una Raspberry Pi con una instalación limpia, sin librerías que pudieran generar conflictos. Mientras tanto, desarrollamos con Flask una página web que simula la automatización de una casa inteligente (cierre de ventanas, encendido del aire acondicionado, etc.) en función de las lecturas de los sensores. Sin embargo, no pudimos validarla de punta a punta mientras el DHT22 no funcionara.
+**Días 5, 6 y 7: Pruebas y avance en la aplicación web.** Tras agotar las alternativas que teníamos, los errores persistían sin importar los cambios realizados. Planteamos como hipótesis utilizar una Raspberry Pi con una instalación limpia, sin librerías que pudieran generar conflictos. Mientras tanto, desarrollamos con Flask una página web que simula la automatización de una casa inteligente (cierre de ventanas, encendido del aire acondicionado, etc.) en función de las lecturas de los sensores. Sin embargo, no pudimos validarla de punta a punta mientras el DHT11 no funcionara.
 
-**Día 8: Análisis del código y posible solución**. Con el apoyo de la IA, revisamos el código y encontramos un error en la forma en que se leían los datos del DHT22: se usaba una clave incorrecta del resultado que devuelve la librería. Corregimos ese error, incorporamos reintentos en la lectura y sumamos un script de diagnóstico del sensor. La validación en el hardware quedó pendiente para la próxima jornada.
+**Día 8: Análisis del código y posible solución**. Con el apoyo de la IA, revisamos el código y encontramos un error en la forma en que se leían los datos del DHT11: se usaba una clave incorrecta del resultado que devuelve la librería. Corregimos ese error, incorporamos reintentos en la lectura y sumamos un script de diagnóstico del sensor. La validación en el hardware quedó pendiente para la próxima jornada y funcionó.
